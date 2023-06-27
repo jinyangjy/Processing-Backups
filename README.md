@@ -1,2 +1,12 @@
 # Processing-Backups
 Utilising Ford-Fulkerson's Method
+
+Processing backup requests of a company and the data needs to be backed up in different data centres and handling network connections in the most efficient way possible. In order to determine the maximum possible data throughput from the data centre origin to the data centres specified in targets. 
+
+The backup request received has the following format: it specifies the integer ID origin ∈ {0, 1, . . . ,|D| − 1} of the data centre where the data to be backed up is located and a list targets of data centres that are deemed appropriate locations for the backup data to be stored. targets is a list of integers such that each integer i in it is such that i ∈ {0, 1, . . . , |D| − 1} and indicates that backing up data to server i is fine.
+
+Approach taken, The approach for this question will be split into two parts where I'll first explain the approach taken to plot the residual graph instead of needing drawing a flow graph, it could be done by directly plotting the residual graph. Following the concept of bottleneck, we'll first find the minimum between the connection given, and update the array each time we've picked the minimum of a connection. For example, if we have a connection of (0,1,5000), it will be listed as min(maxOut[0], maxIn[1], 5000), and in the list of maxOut, let's say data centre 0 has a maxOut of 10000, data centre 1 has a maxIn of 5000, the minimum would be 5000. Then we would deduct the minimum from the list of both maxOut (10000-5000 = 5000, now out max out of 0 will be 5000 available capacity for the following iterations) and maxIn (5000-5000 = 0, now maxIn of 1 will no longer have any remaining capacity for the following iterations), we'll keep repeating the same process till we attained all available capacity for each communication channel. If there're more than two targets given, a "super desination" vertex will be added towards the end of the list and there'll be an edge connecting them. The purpose of having the capacity to be maxIn of target to the super destination's suppose to give us the maximum potential the target has.
+
+After building a residual network. Run ford fulkerson till there's no longer an augmented path. Using this method, we'll update the maximum flow each time a
+bottleneck has been choosen for an augmenting path. When there's no longer an
+augmenting path, it will terminate.
